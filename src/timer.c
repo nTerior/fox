@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-void run_timer(void *arg)
+void *run_timer(void *arg)
 {
   struct timer *timer = (struct timer *)arg;
 
@@ -18,6 +18,7 @@ void run_timer(void *arg)
 
   (*timer->callback)();
   free(timer);
+  return 0;
 }
 
 void add_timer(double delay_ms, void (*callback)(void))

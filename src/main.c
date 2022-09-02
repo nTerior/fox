@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-int quit(int _)
+int quit(__attribute__((unused)) int _)
 {
   return 0;
 }

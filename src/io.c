@@ -90,7 +90,7 @@ int write_file(char *path, unsigned char *buffer, unsigned long buffer_size)
 
   FILE *fp = fopen(path, "wb+");
 
-  int done = 0;
+  unsigned long done = 0;
   do
   {
     size_t x = fwrite(buffer + done, 1, buffer_size - done, fp);
