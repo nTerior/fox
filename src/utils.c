@@ -12,3 +12,15 @@ int is_number(char *str)
   }
   return 1;
 }
+
+unsigned long min(unsigned long a, unsigned long b)
+{
+  return a < b ? a : b;
+}
+
+char get_printable_char(char c)
+{
+  if (isprint(c) && c != ' ')
+    return c;
+  return '.';
+}

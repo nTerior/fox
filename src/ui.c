@@ -27,6 +27,8 @@ struct fox_ui *ui_init()
   init_pair(URGENCY_ERR, COLOR_RED, COLOR_BLACK);
   init_pair(URGENCY_CRITICAL, COLOR_WHITE, COLOR_RED);
 
+  init_pair(SELECTED_BYTE_COLOR_PAIR, COLOR_BLACK, COLOR_WHITE);
+
   struct fox_ui *ui = malloc(sizeof(struct fox_ui));
   for (int i = 0; i < KEY_MAX; i++)
   {
@@ -89,4 +91,9 @@ void ui_vprint_clear_line(int line, char *format, va_list arg)
   move(line, 0);
   clrtoeol();
   vw_printw(stdscr, format, arg);
+}
+
+int get_printable_lines()
+{
+  return LINES - LOG_RESERVED_SPACE;
 }

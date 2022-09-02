@@ -1,7 +1,5 @@
 #pragma once
 
-#include "ui.h"
-
 struct fox_editor
 {
   char *filename;
@@ -26,4 +24,4 @@ void editor_cleanup(struct fox_editor *editor);
  *
  * @param editor
  */
-void editor_render(struct fox_editor *editor, struct fox_ui *ui);
+void editor_render(struct fox_editor *editor);

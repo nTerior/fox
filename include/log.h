@@ -1,5 +1,7 @@
 #pragma once
 
+#define LOG_RESERVED_SPACE 2
+
 #define URGENCY_NORMAL 0
 #define URGENCY_WARN 1
 #define URGENCY_ERR 2

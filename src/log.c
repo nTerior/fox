@@ -6,10 +6,10 @@
 
 void _log(char *format, va_list farg, int urgency)
 {
-  ui_print_clear_line(LINES - 2, "---");
+  ui_print_clear_line(LINES - LOG_RESERVED_SPACE, "---");
 
   attrset(COLOR_PAIR(urgency));
-  ui_vprint_clear_line(LINES - 1, format, farg);
+  ui_vprint_clear_line(LINES - LOG_RESERVED_SPACE + 1, format, farg);
   attrset(COLOR_PAIR(0));
 }
 

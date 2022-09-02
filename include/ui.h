@@ -2,6 +2,7 @@
 
 #include <ncurses.h>
 
+#define SELECTED_BYTE_COLOR_PAIR 100
 struct fox_ui
 {
   int (*key_callbacks[KEY_MAX])(int);
@@ -65,3 +66,10 @@ void ui_vprint_line(int line, char *format, va_list arg);
  * @param arg
  */
 void ui_vprint_clear_line(int line, char *format, va_list arg);
+
+/**
+ * @brief Returns the amount of to be printed lines
+ *
+ * @return int
+ */
+int get_printable_lines();
