@@ -1,4 +1,5 @@
 #include "optparse.h"
+#include "editor.h"
 #include "ui.h"
 
 #include <stdlib.h>
@@ -20,8 +21,12 @@ int main(int argc, char **argv)
   struct fox_options options;
   parse_opts(argc, argv, &options);
 
+  struct fox_editor *editor = editor_init(options.filename, options.buffer_size);
+
   struct fox_ui *ui = ui_init();
   ui_key_callback('q', quit, ui);
+
+  editor_render(editor, ui);
 
   ui_loop(ui);
   ui_cleanup(ui);

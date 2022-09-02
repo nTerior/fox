@@ -80,6 +80,14 @@ void parse_opts(int argc, char **argv, struct fox_options *opt)
         exit(1);
         return;
       }
+
+      if (!can_read(optarg))
+      {
+        fprintf(stderr, "You do not have the required permissions to read %s!\n", optarg);
+        exit(1);
+        return;
+      }
+
       opt->filename = malloc(strlen(optarg));
       strcpy(opt->filename, optarg);
       break;
