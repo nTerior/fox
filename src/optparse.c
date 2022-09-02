@@ -24,7 +24,8 @@ void print_help(char *name)
       "unless specified otherwise.\n"
       "\n"
       "Keyboard interactions:\n"
-      " - q: Quit\n"
+      " - arrow keys: cursor movement (also possible with mouse clicks)\n"
+      " - q: quit\n"
       "\n"
       "This software is being developed at https://github.com/nTerior/fox\n"
       "License: MIT License\n",

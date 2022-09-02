@@ -15,14 +15,16 @@ With no file specified, a new 1KiB (1024 bytes) large, zeroed file will be creat
 unless specified otherwise.
 
 Keyboard interactions:
- - q: Quit
+ - arrow keys: cursor movement (also possible with mouse clicks)
+ - q: quit
 
 This software is being developed at https://github.com/nTerior/fox
 License: MIT License
 ```
 
-### Keyboard interaction
-- Quit: `q` (Note that `Ctrl + C` won't kill the process)
+### Interaction
+- cursor movement: `arrow keys` or clicking using your mouse
+- quitting: `q` (Note that `Ctrl + C` won't kill the process)
 
 ## Installation
 

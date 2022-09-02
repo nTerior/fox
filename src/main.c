@@ -22,12 +22,13 @@ int main(int argc, char **argv)
   struct fox_options options;
   parse_opts(argc, argv, &options);
 
-
   struct fox_ui *ui = ui_init();
   ui_key_callback('q', quit, ui);
 
   editor_init(options.filename, options.buffer_size, ui);
   editor_render();
+
+  info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit");
 
   ui_loop(ui);
   ui_cleanup(ui);
