@@ -3,6 +3,8 @@
 #include "utils.h"
 #include "io.h"
 
+#include "version.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,6 +37,7 @@ void parse_opts(int argc, char **argv, struct fox_options *opt)
 
   struct option options[] = {
       {"help", no_argument, 0, 'h'},
+      {"version", no_argument, 0, 'v'},
       {"file", required_argument, 0, 'f'},
       {"buffer", required_argument, 0, 'b'},
       {0, 0, 0, 0},
@@ -45,7 +48,7 @@ void parse_opts(int argc, char **argv, struct fox_options *opt)
   while (1)
   {
     int opt_index = 0;
-    current = getopt_long(argc, argv, "hf:b:", options, &opt_index);
+    current = getopt_long(argc, argv, "hvf:b:", options, &opt_index);
 
     if (current == -1)
       break;
@@ -54,6 +57,11 @@ void parse_opts(int argc, char **argv, struct fox_options *opt)
     {
     case 'h':
       print_help(argv[0]);
+      exit(0);
+      return;
+
+    case 'v':
+      printf("fox %s\n", FOX_VERSION);
       exit(0);
       return;
 
