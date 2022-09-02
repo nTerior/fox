@@ -6,9 +6,8 @@ fox is a command line hex-editor
 ```bash
 ./cedit [options]
 
-# for help message
-./cedit --help #or
-./cedit -h
+# help message
+./cedit --help
 ```
 
 ### Keyboard interaction
