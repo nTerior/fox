@@ -4,7 +4,7 @@ fox is a command line hex-editor
 
 ## Usage
 ```
-Usage: ./fox [options]
+Usage: fox [options]
 Options:
     -h, --help           prints this message
     -v, --version        prints the current version of fox
