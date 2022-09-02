@@ -5,7 +5,6 @@
 struct fox_ui
 {
   int (*key_callbacks[KEY_MAX])(int);
-  int a[4];
 };
 
 /**
@@ -14,6 +13,7 @@ struct fox_ui
  * @param ui
  */
 struct fox_ui *ui_init();
+void ui_cleanup(struct fox_ui *ui);
 
 /**
  * @brief Adds a key event callback for each key

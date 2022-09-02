@@ -22,13 +22,16 @@ struct fox_ui *ui_init()
   }
 
   struct fox_ui *ui = malloc(sizeof(struct fox_ui));
-
   for (int i = 0; i < KEY_MAX; i++)
   {
     ui->key_callbacks[0] = 0;
   }
-
   return ui;
+}
+
+void ui_cleanup(struct fox_ui *ui)
+{
+  free(ui);
 }
 
 void ui_key_callback(int key, int (*callback)(int), struct fox_ui *ui)

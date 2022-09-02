@@ -17,7 +17,7 @@ int main(int argc, char **argv)
   ui_loop(ui);
 
   endwin();
-  free(ui);
+  ui_cleanup(ui);
 
   return 0;
 }
