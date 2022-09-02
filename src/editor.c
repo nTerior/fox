@@ -1,7 +1,6 @@
 #include "editor.h"
 
 #include "io.h"
-#include "ui.h"
 #include "utils.h"
 #include "log.h"
 
@@ -10,9 +9,109 @@
 
 #include <ncurses.h>
 
-struct fox_editor *editor_init(char *filename, unsigned long buffer_size)
+static struct fox_editor *editor;
+
+void do_scroll(int scroll)
 {
-  struct fox_editor *editor = malloc(sizeof(struct fox_editor));
+  editor->scrolled += scroll;
+  editor->selected_byte += scroll * 16;
+
+  int printable_lines = get_printable_lines();
+
+  // clamping selection
+  editor->selected_byte = max(editor->selected_byte, 0);
+  editor->selected_byte = min(editor->selected_byte, editor->buffer_size - 1);
+
+  // scrolling the display
+  long index_on_screen = editor->selected_byte - editor->scrolled * 16;
+  if (index_on_screen >= printable_lines * 16)
+    editor->scrolled++;
+  else if (index_on_screen < 0)
+    editor->scrolled--;
+
+  editor->scrolled = min(editor->scrolled, editor->buffer_size / 16 - printable_lines);
+  editor->scrolled = max(editor->scrolled, 0);
+  editor_render();
+}
+
+int do_cursor_click(__attribute__((unused)) int _)
+{
+  MEVENT event;
+
+  if (getmouse(&event) != OK)
+    return 1;
+
+  if (event.bstate == BUTTON4_PRESSED)
+  {
+    do_scroll(-3);
+    return 1;
+  }
+
+  if (event.bstate == BUTTON5_PRESSED)
+  {
+    do_scroll(3);
+    return 1;
+  }
+
+  // Click event
+  if (event.bstate != BUTTON1_PRESSED)
+    return 1;
+
+  int clicked_x = -1;
+  int clicked_y = event.y;
+
+  // outside of clickable area
+  if (clicked_y >= get_printable_lines())
+    return 1;
+
+  if (event.x > 9 && event.x < 57)
+    clicked_x = (event.x - 10 - (event.x - 10) / 3) / 2;
+
+  // clicked on ascii display
+  else if (event.x > 58 && event.x <= 58 + 16)
+    clicked_x = event.x - 59;
+
+  if (clicked_x != -1)
+  {
+    int byte_index = clicked_y * 16 + clicked_x;
+    editor->selected_byte = byte_index + editor->scrolled * 16;
+    editor_render();
+  }
+
+  return 1;
+}
+
+int do_cursor_move(int key)
+{
+  switch (key)
+  {
+  case KEY_UP:
+    editor->selected_byte -= 16;
+    break;
+
+  case KEY_LEFT:
+    editor->selected_byte--;
+    break;
+
+  case KEY_DOWN:
+    editor->selected_byte += 16;
+    break;
+
+  case KEY_RIGHT:
+    editor->selected_byte++;
+    break;
+
+  default:
+    break;
+  }
+
+  do_scroll(0);
+  return 1;
+}
+
+void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
+{
+  editor = malloc(sizeof(struct fox_editor));
 
   if (filename != 0)
   {
@@ -31,24 +130,29 @@ struct fox_editor *editor_init(char *filename, unsigned long buffer_size)
   else
     editor->buffer = calloc(buffer_size, 1);
 
-  return editor;
+  // do hotkeys
+  ui_key_callback(KEY_UP, do_cursor_move, ui);
+  ui_key_callback(KEY_DOWN, do_cursor_move, ui);
+  ui_key_callback(KEY_LEFT, do_cursor_move, ui);
+  ui_key_callback(KEY_RIGHT, do_cursor_move, ui);
+  ui_key_callback(KEY_MOUSE, do_cursor_click, ui);
 }
 
-void editor_cleanup(struct fox_editor *editor)
+void editor_cleanup()
 {
   free(editor->buffer);
   free(editor->filename);
   free(editor);
 }
 
-void editor_render(struct fox_editor *editor)
+void editor_render()
 {
-  unsigned long printable_bytes = min(editor->buffer_size, get_printable_lines() * 16);
-  unsigned long byte_offset = editor->scrolled * 16;
+  long printable_bytes = min(editor->buffer_size, get_printable_lines() * 16);
+  long byte_offset = editor->scrolled * 16;
   int line = 0;
   const int ascii_print_x = 9 + 16 * 2 + 16 + 2;
 
-  for (unsigned long i = byte_offset; i < printable_bytes + byte_offset; i++)
+  for (long i = byte_offset; i < printable_bytes + byte_offset; i++)
   {
     // hex representation
     if (i >= editor->buffer_size)
@@ -70,7 +174,7 @@ void editor_render(struct fox_editor *editor)
     _x++;
 
     // ascii representation
-    mvprintw(i / 16, ascii_print_x + i % 16, "%c", get_printable_char(editor->buffer[i]));
+    mvprintw((i - byte_offset) / 16, ascii_print_x + (i - byte_offset) % 16, "%c", get_printable_char(editor->buffer[i]));
     move(_y, _x);
     attrset(COLOR_PAIR(0));
   }
