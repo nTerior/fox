@@ -1,5 +1,9 @@
 #include "optparse.h"
 
+#include "utils.h"
+#include "io.h"
+
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -16,7 +20,10 @@ void print_help(char *name)
       "With no file specified, a new 1KiB (1024 bytes) large, zeroed file will be created,\n"
       "unless specified otherwise.\n"
       "\n"
-      "This software is being developed at https://github.com/nTerior/fox"
+      "Keyboard interactions:\n"
+      " - q: Quit\n"
+      "\n"
+      "This software is being developed at https://github.com/nTerior/fox\n"
       "License: MIT License\n",
       name);
 }
@@ -51,9 +58,39 @@ void parse_opts(int argc, char **argv, struct fox_options *opt)
       return;
 
     case 'f':
+      int res = file_exists(optarg);
+      if (res == IO_DIRECTORY)
+      {
+        fprintf(stderr, "%s is not a file!\n", optarg);
+        exit(1);
+        return;
+      }
+      else if (res == IO_FAIL)
+      {
+        fprintf(stderr, "The file %s does not exist!\n", optarg);
+        exit(1);
+        return;
+      }
+      opt->filename = malloc(strlen(optarg));
+      strcpy(opt->filename, optarg);
       break;
 
     case 'b':
+      if (!is_number(optarg))
+      {
+        fprintf(stderr, "The passed buffer size is not a number!\n");
+        exit(1);
+        return;
+      }
+
+      opt->buffer_size = atol(optarg);
+
+      if (opt->buffer_size <= 0)
+      {
+        fprintf(stderr, "The buffer has to be at least size 1!\n");
+        exit(1);
+        return;
+      }
       break;
 
     default:

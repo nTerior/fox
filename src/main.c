@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-int quit(int key)
+int quit(int _)
 {
   return 0;
 }
@@ -25,6 +25,8 @@ int main(int argc, char **argv)
 
   ui_loop(ui);
   ui_cleanup(ui);
+
+  free(options.filename);
 
   return 0;
 }
