@@ -1,6 +1,9 @@
 #include "ui.h"
+#include "log.h"
+#include "timer.h"
 
 #include <stdlib.h>
+#include <stdarg.h>
 
 struct fox_ui *ui_init()
 {
@@ -19,6 +22,10 @@ struct fox_ui *ui_init()
   {
     start_color();
   }
+
+  init_pair(URGENCY_WARN, COLOR_YELLOW, COLOR_BLACK);
+  init_pair(URGENCY_ERR, COLOR_RED, COLOR_BLACK);
+  init_pair(URGENCY_CRITICAL, COLOR_WHITE, COLOR_RED);
 
   struct fox_ui *ui = malloc(sizeof(struct fox_ui));
   for (int i = 0; i < KEY_MAX; i++)
@@ -43,11 +50,43 @@ void ui_key_callback(int key, int (*callback)(int), struct fox_ui *ui)
 
 void ui_loop(struct fox_ui *ui)
 {
+  ui_print_clear_line(LINES - 2, "---");
   while (1)
   {
     int c = wgetch(stdscr);
     if (c != ERR)
-      if ((*ui->key_callbacks[c])(c) == 0)
-        return;
+    {
+      if (ui->key_callbacks[c] != 0)
+        if ((*ui->key_callbacks[c])(c) == 0)
+          return;
+    }
   }
+}
+
+void ui_print_line(int line, char *format, ...)
+{
+  va_list arg;
+  va_start(arg, format);
+  ui_print_clear_line(line, format, arg);
+  va_end(arg);
+}
+
+void ui_print_clear_line(int line, char *format, ...)
+{
+  va_list arg;
+  va_start(arg, format);
+  ui_vprint_clear_line(line, format, arg);
+  va_end(arg);
+}
+
+void ui_vprint_line(int line, char *format, va_list arg)
+{
+  move(line, 0);
+  vw_printw(stdscr, format, arg);
+}
+void ui_vprint_clear_line(int line, char *format, va_list arg)
+{
+  move(line, 0);
+  clrtoeol();
+  vw_printw(stdscr, format, arg);
 }

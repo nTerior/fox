@@ -8,14 +8,14 @@ int quit(int _)
   return 0;
 }
 
-void close()
+void close_fox()
 {
   endwin();
 }
 
 int main(int argc, char **argv)
 {
-  atexit(close);
+  atexit(close_fox);
 
   struct fox_options options;
   parse_opts(argc, argv, &options);

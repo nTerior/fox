@@ -29,3 +29,39 @@ void ui_key_callback(int key, int (*callback)(int), struct fox_ui *ui);
  * @param ui
  */
 void ui_loop(struct fox_ui *ui);
+
+/**
+ * @brief Prints a line
+ *
+ * @param line the line
+ * @param format
+ * @param ...
+ */
+void ui_print_line(int line, char *format, ...);
+
+/**
+ * @brief Prints a line after clearing it
+ *
+ * @param line
+ * @param format
+ * @param ...
+ */
+void ui_print_clear_line(int line, char *format, ...);
+
+/**
+ * @brief Prints a line using va_list
+ *
+ * @param line the line
+ * @param format
+ * @param arg
+ */
+void ui_vprint_line(int line, char *format, va_list arg);
+
+/**
+ * @brief Prints a line after clearing it using va_list
+ *
+ * @param line
+ * @param format
+ * @param arg
+ */
+void ui_vprint_clear_line(int line, char *format, va_list arg);
