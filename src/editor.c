@@ -67,7 +67,7 @@ void editor_render(struct fox_editor *editor)
     int _y;
     int _x;
     getyx(stdscr, _y, _x);
-    move(_y, _x++);
+    _x++;
 
     // ascii representation
     mvprintw(i / 16, ascii_print_x + i % 16, "%c", get_printable_char(editor->buffer[i]));
