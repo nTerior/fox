@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS =
-LDFLAGS = -lncurses
+LDFLAGS = -lncurses -lpthread
 SRC_FILES = $(wildcard src/*.c)
 OBJ_FILES = $(patsubst %.c, %.o, $(SRC_FILES))
 INCLUDE_DIR = -Iinclude/
