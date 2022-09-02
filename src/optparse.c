@@ -16,6 +16,7 @@ void print_help(char *name)
       "Usage: %s [options]\n"
       "Options:\n"
       "    -h, --help           prints this message\n"
+      "    -v, --version        prints the current version of fox\n"
       "    -f, --file <PATH>    PATH to the to be edited file\n"
       "    -b, --buffer <SIZE>  if no file is being specified, the created file will be SIZE bytes large\n"
       "\n"
