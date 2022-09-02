@@ -2,6 +2,18 @@
 
 fox is a command line hex-editor
 
+## Usage
+```bash
+./cedit [options]
+
+# for help message
+./cedit --help #or
+./cedit -h
+```
+
+### Keyboard interaction
+- Quit: `q` (Note that `Ctrl + C` won't kill the process)
+
 ## Installation
 
 ### Requirements
@@ -9,6 +21,7 @@ fox is a command line hex-editor
 Libraries:
 ```
 - ncurses
+- pthread
 ```
 
 Build tools:
