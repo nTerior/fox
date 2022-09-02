@@ -1,7 +1,6 @@
 #include "ui.h"
 
 #include <stdlib.h>
-#include <time.h>
 
 struct fox_ui *ui_init()
 {
@@ -46,14 +45,9 @@ void ui_loop(struct fox_ui *ui)
 {
   while (1)
   {
-    clock_t c0 = clock();
-
     int c = wgetch(stdscr);
     if (c != ERR)
       if ((*ui->key_callbacks[c])(c) == 0)
         return;
-
-    clock_t c1 = clock();
-    double delta_ms = (c1 - c0) * 1000. / CLOCKS_PER_SEC;
   }
 }
