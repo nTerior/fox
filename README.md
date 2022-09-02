@@ -4,10 +4,10 @@ fox is a command line hex-editor
 
 ## Usage
 ```bash
-./cedit [options]
+fox [options]
 
 # help message
-./cedit --help
+fox --help
 ```
 
 ### Keyboard interaction
