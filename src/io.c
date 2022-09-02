@@ -46,7 +46,7 @@ int can_write(char *path)
   return IO_OK;
 }
 
-int read_file(char *path, unsigned char **buffer, unsigned long *buffer_size)
+int read_file(char *path, unsigned char **buffer, long *buffer_size)
 {
   // basic checks
   int res = file_exists(path);
@@ -65,7 +65,7 @@ int read_file(char *path, unsigned char **buffer, unsigned long *buffer_size)
   *buffer = (unsigned char *)malloc(*buffer_size);
 
   // reading the file
-  unsigned done = 0;
+  long done = 0;
   do
   {
     size_t x = fread(*buffer + done, 1, *buffer_size - done, fp);
@@ -78,7 +78,7 @@ int read_file(char *path, unsigned char **buffer, unsigned long *buffer_size)
   return IO_OK;
 }
 
-int write_file(char *path, unsigned char *buffer, unsigned long buffer_size)
+int write_file(char *path, unsigned char *buffer, long buffer_size)
 {
   // basic checks
   int res = file_is_dir(path);
@@ -90,7 +90,7 @@ int write_file(char *path, unsigned char *buffer, unsigned long buffer_size)
 
   FILE *fp = fopen(path, "wb+");
 
-  unsigned long done = 0;
+  long done = 0;
   do
   {
     size_t x = fwrite(buffer + done, 1, buffer_size - done, fp);

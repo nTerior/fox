@@ -13,9 +13,14 @@ int is_number(char *str)
   return 1;
 }
 
-unsigned long min(unsigned long a, unsigned long b)
+long min(long a, long b)
 {
   return a < b ? a : b;
+}
+
+long max(long a, long b)
+{
+  return a > b ? a : b;
 }
 
 char get_printable_char(char c)

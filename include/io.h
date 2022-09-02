@@ -46,7 +46,7 @@ int can_write(char *path);
  * @param buffer_size pointer to the buffer size, no initialization needed.
  * @return IO_OK on success, IO_DIRECTORY on file is actually a directory, IO_MISSING_PERMS on missing permissions
  */
-int read_file(char *path, unsigned char **buffer, unsigned long *buffer_size);
+int read_file(char *path, unsigned char **buffer, long *buffer_size);
 
 /**
  * @brief Writes to the given file
@@ -56,4 +56,4 @@ int read_file(char *path, unsigned char **buffer, unsigned long *buffer_size);
  * @param buffer_size the buffer size
  * @return IO_OK on success, IO_DIRECTORY on file is actually a directory, IO_MISSING_PERMS on missing permissions
  */
-int write_file(char *path, unsigned char *buffer, unsigned long buffer_size);
+int write_file(char *path, unsigned char *buffer, long buffer_size);

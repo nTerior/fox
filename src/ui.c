@@ -11,7 +11,7 @@ struct fox_ui *ui_init()
   raw();
   keypad(stdscr, TRUE);
   noecho();
-  nodelay(stdscr, TRUE);
+  // nodelay(stdscr, TRUE);
 
   curs_set(0);
 

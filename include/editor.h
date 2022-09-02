@@ -1,12 +1,13 @@
 #pragma once
+#include "ui.h"
 
 struct fox_editor
 {
   char *filename;
   unsigned char *buffer;
-  unsigned long buffer_size;
-  unsigned long selected_byte;
-  unsigned long scrolled;
+  long buffer_size;
+  long selected_byte;
+  long scrolled;
 };
 
 /**
@@ -16,12 +17,12 @@ struct fox_editor
  * @param buffer_size
  * @return struct fox_editor*
  */
-struct fox_editor *editor_init(char *filename, unsigned long buffer_size);
-void editor_cleanup(struct fox_editor *editor);
+void editor_init(char *filename, long buffer_size, struct fox_ui *ui);
+void editor_cleanup();
 
 /**
  * @brief Renders the editor on stdscr
  *
  * @param editor
  */
-void editor_render(struct fox_editor *editor);
+void editor_render();

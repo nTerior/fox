@@ -13,14 +13,23 @@ int is_number(char *str);
  *
  * @param a
  * @param b
- * @return unsigned long
+ * @return long
  */
-unsigned long min(unsigned long a, unsigned long b);
+long min(long a, long b);
+
+/**
+ * @brief returns the larger value
+ *
+ * @param a
+ * @param b
+ * @return long
+ */
+long max(long a, long b);
 
 /**
  * @brief Get either a printable ascii char or `.`
- * 
- * @param c 
- * @return char 
+ *
+ * @param c
+ * @return char
  */
 char get_printable_char(char c);
