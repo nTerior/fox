@@ -1,6 +1,6 @@
 #pragma once
 
-#define DEFAULT_LOG info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit, s -> save")
+#define DEFAULT_LOG info("Keyboard shortcuts: arrow keys -> cursor movement, i -> insert byte, del -> delete byte, s -> save")
 
 #define LOG_RESERVED_SPACE 2
 
