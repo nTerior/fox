@@ -8,10 +8,6 @@
 void *run_timer(void *arg)
 {
   struct timer *timer = (struct timer *)arg;
-
-  clock_t c0 = clock();
-  double delta_ms = 0;
-
   clock_t goal = timer->delay_ms * CLOCKS_PER_SEC / 1000 + clock();
   while (goal > clock())
     ;
