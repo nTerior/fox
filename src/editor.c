@@ -207,7 +207,7 @@ void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
 
   if (filename != 0)
   {
-    editor->filename = malloc(strlen(filename));
+    editor->filename = malloc(strlen(filename) + 1);
     strcpy(editor->filename, filename);
   }
   else
