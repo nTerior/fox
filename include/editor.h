@@ -28,3 +28,9 @@ void editor_cleanup();
  * @param editor
  */
 void editor_render();
+
+/**
+ * @brief saves the current file
+ *
+ */
+void save();

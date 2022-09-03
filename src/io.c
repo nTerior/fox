@@ -81,12 +81,15 @@ int read_file(char *path, unsigned char **buffer, long *buffer_size)
 int write_file(char *path, unsigned char *buffer, long buffer_size)
 {
   // basic checks
-  int res = file_is_dir(path);
-  if (res == IO_DIRECTORY)
-    return res;
+  if (file_exists(path))
+  {
+    int res = file_is_dir(path);
+    if (res == IO_DIRECTORY)
+      return res;
 
-  if (!can_write(path) && file_exists(path))
-    return IO_MISSING_PERMS;
+    if (!can_write(path))
+      return IO_MISSING_PERMS;
+  }
 
   FILE *fp = fopen(path, "wb+");
 

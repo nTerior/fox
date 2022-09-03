@@ -16,6 +16,7 @@ unless specified otherwise.
 
 Keyboard interactions:
  - arrow keys: cursor movement (also possible with mouse clicks)
+ - s: save file
  - q: quit
 
 This software is being developed at https://github.com/nTerior/fox
@@ -24,6 +25,7 @@ License: MIT License
 
 ### Interaction
 - cursor movement: `arrow keys` or clicking using your mouse
+- saving: `s`
 - quitting: `q` (Note that `Ctrl + C` won't kill the process)
 
 ## Installation

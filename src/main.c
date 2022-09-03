@@ -33,7 +33,7 @@ int main(int argc, char **argv)
   editor_init(options.filename, options.buffer_size, ui);
   editor_render();
 
-  info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit");
+  info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit, s -> save");
 
   ui_loop(ui);
 

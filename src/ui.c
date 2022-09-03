@@ -1,9 +1,11 @@
 #include "ui.h"
 #include "log.h"
 #include "timer.h"
+#include "utils.h"
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 
 struct fox_ui *ui_init()
 {
@@ -11,8 +13,7 @@ struct fox_ui *ui_init()
   raw();
   keypad(stdscr, TRUE);
   noecho();
-  // nodelay(stdscr, TRUE);
-
+  set_escdelay(0);
   curs_set(0);
 
   mouseinterval(0);
@@ -95,4 +96,62 @@ void ui_vprint_clear_line(int line, char *format, va_list arg)
 int get_printable_lines()
 {
   return LINES - LOG_RESERVED_SPACE;
+}
+
+char *ui_get_string(char *prompt, int maxlen, char *initial)
+{
+  char *res;
+  if (initial)
+  {
+    res = calloc(max(maxlen, strlen(initial)), 1);
+    strcpy(res, initial);
+  }
+  else
+  {
+    res = calloc(maxlen, 1);
+  }
+
+  while (1)
+  {
+    info("%s: %s|", prompt, res);
+    int c = wgetch(stdscr);
+
+    // extra keys
+    if (c < ' ' || c > '~')
+    {
+      // submit
+      if ((c == KEY_ENTER || c == 10) && strlen(res) != 0)
+      {
+        res = realloc(res, strlen(res));
+        return res;
+      }
+      else if (c == KEY_BACKSPACE)
+      {
+        res[strlen(res) - 1] = 0;
+      }
+      // esc or alt
+      else if (c == 27)
+      {
+
+        nodelay(stdscr, TRUE);
+
+        int w = wgetch(stdscr);
+        // esc key
+        if (w == ERR)
+        {
+          free(res);
+          return 0;
+        }
+
+        nodelay(stdscr, FALSE);
+      }
+    }
+    else
+    {
+      if (strlen(res) >= maxlen)
+        continue;
+      char tmp[] = {c, 0};
+      strcat(res, tmp);
+    }
+  }
 }

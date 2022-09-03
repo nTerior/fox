@@ -3,6 +3,7 @@
 #include "io.h"
 #include "utils.h"
 #include "log.h"
+#include "timer.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +11,36 @@
 #include <ncurses.h>
 
 static struct fox_editor *editor;
+
+void delayed_kb_info()
+{
+  info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit, s -> save");
+}
+
+void save(__attribute__((unused)) int _)
+{
+  char *name = ui_get_string("Enter filename", 255, editor->filename);
+
+  if (name == 0)
+  {
+    delayed_kb_info();
+    return;
+  }
+
+  int res = write_file(name, editor->buffer, editor->buffer_size);
+  if (res == IO_MISSING_PERMS)
+    err("You don't have the required permissions to save to %s!", name);
+  else if (res == IO_DIRECTORY)
+    err("%s is actually a directory", name);
+  else
+  {
+    editor->filename = realloc(editor->filename, strlen(name));
+    strcpy(editor->filename, name);
+    info("File saved to: %s", name);
+  }
+  add_timer(5000, delayed_kb_info);
+  free(name);
+}
 
 void do_scroll(int scroll)
 {
@@ -180,6 +211,9 @@ void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
   ui_key_callback('d', edit_nibble, ui);
   ui_key_callback('e', edit_nibble, ui);
   ui_key_callback('f', edit_nibble, ui);
+
+  // saving
+  ui_key_callback('s', save, ui);
 }
 
 void editor_cleanup()

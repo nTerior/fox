@@ -73,3 +73,10 @@ void ui_vprint_clear_line(int line, char *format, va_list arg);
  * @return int
  */
 int get_printable_lines();
+
+/**
+ * @brief Retrieves a string from the user
+ *
+ * @return char*
+ */
+char *ui_get_string(char *prompt, int maxlen, char *initial);

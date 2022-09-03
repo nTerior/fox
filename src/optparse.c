@@ -25,6 +25,7 @@ void print_help(char *name)
       "\n"
       "Keyboard interactions:\n"
       " - arrow keys: cursor movement (also possible with mouse clicks)\n"
+      " - s: save file\n"
       " - q: quit\n"
       "\n"
       "This software is being developed at https://github.com/nTerior/fox\n"
