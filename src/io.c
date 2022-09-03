@@ -92,6 +92,10 @@ int write_file(char *path, unsigned char *buffer, long buffer_size)
   }
 
   FILE *fp = fopen(path, "wb+");
+  if (!fp)
+  {
+    return IO_FAIL;
+  }
 
   long done = 0;
   do

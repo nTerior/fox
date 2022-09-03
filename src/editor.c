@@ -32,6 +32,8 @@ void save(__attribute__((unused)) int _)
     err("You don't have the required permissions to save to %s!", name);
   else if (res == IO_DIRECTORY)
     err("%s is actually a directory", name);
+  else if (res == IO_FAIL)
+    critical("Cannot write to %s!", name);
   else
   {
     editor->filename = realloc(editor->filename, strlen(name));
