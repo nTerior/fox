@@ -256,6 +256,8 @@ void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
 
 void editor_cleanup()
 {
+  if (!editor)
+    return;
   free(editor->buffer);
   free(editor->filename);
   free(editor);

@@ -20,13 +20,16 @@ void close_fox()
 {
   endwin();
   editor_cleanup();
-  ui_cleanup(ui);
-  free(options.filename);
+  if(ui)
+    ui_cleanup(ui);
+  if(options.filename)
+    free(options.filename);
 }
 
 int main(int argc, char **argv)
 {
   atexit(close_fox);
+
   parse_opts(argc, argv, &options);
 
   ui = ui_init();
