@@ -1,5 +1,7 @@
 #pragma once
 
+#define DEFAULT_LOG info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit, s -> save")
+
 #define LOG_RESERVED_SPACE 2
 
 #define URGENCY_NORMAL 0

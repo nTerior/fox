@@ -25,6 +25,8 @@ void print_help(char *name)
       "\n"
       "Keyboard interactions:\n"
       " - arrow keys: cursor movement (also possible with mouse clicks)\n"
+      " - i: insert byte after selected byte\n"
+      " - del: delete selected byte\n"
       " - s: save file\n"
       " - q: quit\n"
       "\n"

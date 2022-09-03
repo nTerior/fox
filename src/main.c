@@ -4,6 +4,8 @@
 #include "log.h"
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 static struct fox_options options;
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
   editor_init(options.filename, options.buffer_size, ui);
   editor_render();
 
-  info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit, s -> save");
+  DEFAULT_LOG;
 
   ui_loop(ui);
 

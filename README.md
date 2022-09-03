@@ -4,9 +4,9 @@ fox is a command line hex-editor
 
 ## Usage
 ```
-Usage: fox [options]
+Usage: ./fox [options]
 Options:
-    -h, --help           printsw this message
+    -h, --help           prints this message
     -v, --version        prints the current version of fox
     -f, --file <PATH>    PATH to the to be edited file
     -b, --buffer <SIZE>  if no file is being specified, the created file will be SIZE bytes large
@@ -16,6 +16,8 @@ unless specified otherwise.
 
 Keyboard interactions:
  - arrow keys: cursor movement (also possible with mouse clicks)
+ - i: insert byte after selected byte
+ - del: delete selected byte
  - s: save file
  - q: quit
 
@@ -25,6 +27,8 @@ License: MIT License
 
 ### Interaction
 - cursor movement: `arrow keys` or clicking using your mouse
+- inserting a byte: `i`
+- deleting a byte: `del`
 - saving: `s`
 - quitting: `q` (Note that `Ctrl + C` won't kill the process)
 

@@ -34,3 +34,15 @@ void editor_render();
  *
  */
 void save();
+
+/**
+ * @brief Inserts a byte after the current position
+ *
+ */
+void insert_byte();
+
+/**
+ * @brief Deletes the current selected byte
+ *
+ */
+void delete_byte();

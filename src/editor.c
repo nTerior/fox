@@ -14,7 +14,7 @@ static struct fox_editor *editor;
 
 void delayed_kb_info()
 {
-  info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit, s -> save");
+  DEFAULT_LOG;
 }
 
 void save(__attribute__((unused)) int _)
@@ -165,6 +165,42 @@ void edit_nibble(int key)
   editor_render();
 }
 
+void insert_byte()
+{
+  int pos = editor->selected_byte + 1;
+  editor->buffer = realloc(editor->buffer, editor->buffer_size + 1);
+  memmove(editor->buffer + pos + 1, editor->buffer + pos, editor->buffer_size - pos);
+  editor->buffer[pos] = 0;
+  editor->buffer_size++;
+  editor->selected_byte++;
+  editor_render();
+}
+
+void delete_byte()
+{
+  long len = editor->buffer_size;
+  if (len <= 0)
+  {
+    err("You cannot delete anything from an empty file!");
+    add_timer(5000, delayed_kb_info);
+    return;
+  }
+  long pos = editor->selected_byte;
+
+  int size = len - pos - 1;
+  unsigned char tmp[size];
+
+  memcpy(tmp, editor->buffer + pos + 1, size);
+  memcpy(editor->buffer + pos, tmp, size);
+  editor->buffer_size--;
+  editor->buffer = realloc(editor->buffer, editor->buffer_size);
+
+  if (editor->selected_byte >= editor->buffer_size)
+    editor->selected_byte--;
+
+  editor_render();
+}
+
 void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
 {
   editor = malloc(sizeof(struct fox_editor));
@@ -212,8 +248,10 @@ void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
   ui_key_callback('e', edit_nibble, ui);
   ui_key_callback('f', edit_nibble, ui);
 
-  // saving
+  // extra
   ui_key_callback('s', save, ui);
+  ui_key_callback('i', insert_byte, ui);
+  ui_key_callback(KEY_DC, delete_byte, ui);
 }
 
 void editor_cleanup()
@@ -226,6 +264,15 @@ void editor_cleanup()
 void editor_render()
 {
   long printable_bytes = min(editor->buffer_size, get_printable_lines() * 16);
+
+  // clear lines
+  for (int line = 0; line <= printable_bytes / 16; line++)
+  {
+    move(line, 0);
+    clrtoeol();
+  }
+  move(0, 0);
+
   long byte_offset = editor->scrolled * 16;
   int line = 0;
   const int ascii_print_x = 9 + 16 * 2 + 16 + 2;
@@ -256,4 +303,5 @@ void editor_render()
     move(_y, _x);
     attrset(COLOR_PAIR(0));
   }
+  refresh();
 }
