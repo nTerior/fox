@@ -59,3 +59,10 @@ make install
 # to uninstall
 make uninstall
 ```
+
+## Planned features
+
+- [ ] Sidebar with additional information
+  - [ ] File name
+  - [ ] File size
+  - [ ] Selected byte as ints/floats (`int8`, `int16`, `int32`, `int64`, `float32`, `float64`) -> signed/unsigned, litte endian, big endian
