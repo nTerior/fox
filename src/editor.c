@@ -110,7 +110,9 @@ void do_cursor_click(__attribute__((unused)) int _)
   if (clicked_x != -1)
   {
     int byte_index = clicked_y * 16 + clicked_x;
-    editor->selected_byte = byte_index + editor->scrolled * 16;
+    int selected = byte_index + editor->scrolled * 16;
+    if (selected < editor->buffer_size)
+      editor->selected_byte = selected;
     editor_render();
     editor->selected_nibble = 0;
   }
@@ -155,14 +157,14 @@ void edit_nibble(int key)
 
   if (editor->selected_nibble == 0)
   {
-    mask <<= 4;
+    *byte = (*byte | 0xf0) & (mask << 4 | 0xf);
   }
   else
   {
-    if (editor->selected_byte != editor->selected_byte - 1)
+    *byte = (*byte | 0x0f) & (mask | 0xf0);
+    if (editor->selected_byte != editor->buffer_size - 1)
       editor->selected_byte++;
   }
-  *byte = (0xff & mask) | (*byte & ~mask);
 
   editor->selected_nibble = !editor->selected_nibble;
   editor_render();
