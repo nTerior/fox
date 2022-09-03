@@ -60,7 +60,7 @@ void do_scroll(int scroll)
   else if (index_on_screen < 0)
     editor->scrolled--;
 
-  editor->scrolled = min(editor->scrolled, editor->buffer_size / 16 - printable_lines);
+  editor->scrolled = min(editor->scrolled, editor->buffer_size / 16 - printable_lines + 1);
   editor->scrolled = max(editor->scrolled, 0);
   editor_render();
 
