@@ -2,6 +2,10 @@
 
 fox is a command line hex-editor
 
+![GitHub issues](https://img.shields.io/github/issues/nTerior/fox?style=flat-square)
+![GitHub](https://img.shields.io/github/license/nTerior/fox?style=flat-square)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/nTerior/fox?style=flat-square)
+
 ## Usage
 ```
 Usage: ./fox [options]
