@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
 
 void *run_timer(void *arg)
 {
@@ -10,18 +11,17 @@ void *run_timer(void *arg)
 
   clock_t c0 = clock();
   double delta_ms = 0;
-  while (delta_ms < timer->delay_ms)
-  {
-    clock_t c1 = clock();
-    delta_ms = (c1 - c0) * 1000. / CLOCKS_PER_SEC;
-  }
+
+  clock_t goal = timer->delay_ms * CLOCKS_PER_SEC / 1000 + clock();
+  while (goal > clock())
+    ;
 
   (*timer->callback)();
   free(timer);
   return 0;
 }
 
-void add_timer(double delay_ms, void (*callback)(void))
+void add_timer(unsigned long delay_ms, void (*callback)(void))
 {
   struct timer *timer = malloc(sizeof(struct timer));
   timer->callback = callback;
