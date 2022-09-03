@@ -36,35 +36,35 @@ void do_scroll(int scroll)
   editor->selected_nibble = 0;
 }
 
-int do_cursor_click(__attribute__((unused)) int _)
+void do_cursor_click(__attribute__((unused)) int _)
 {
   MEVENT event;
 
   if (getmouse(&event) != OK)
-    return 1;
+    return;
 
   if (event.bstate == BUTTON4_PRESSED)
   {
     do_scroll(-3);
-    return 1;
+    return;
   }
 
   if (event.bstate == BUTTON5_PRESSED)
   {
     do_scroll(3);
-    return 1;
+    return;
   }
 
   // Click event
   if (event.bstate != BUTTON1_PRESSED)
-    return 1;
+    return;
 
   int clicked_x = -1;
   int clicked_y = event.y;
 
   // outside of clickable area
   if (clicked_y >= get_printable_lines())
-    return 1;
+    return;
 
   if (event.x > 9 && event.x < 57)
     clicked_x = (event.x - 10 - (event.x - 10) / 3) / 2;
@@ -80,11 +80,9 @@ int do_cursor_click(__attribute__((unused)) int _)
     editor_render();
     editor->selected_nibble = 0;
   }
-
-  return 1;
 }
 
-int do_cursor_move(int key)
+void do_cursor_move(int key)
 {
   switch (key)
   {
@@ -109,10 +107,9 @@ int do_cursor_move(int key)
   }
 
   do_scroll(0);
-  return 1;
 }
 
-int edit_nibble(int key)
+void edit_nibble(int key)
 {
   unsigned char mask = 0;
   if (key <= '9')
@@ -135,8 +132,6 @@ int edit_nibble(int key)
 
   editor->selected_nibble = !editor->selected_nibble;
   editor_render();
-
-  return 1;
 }
 
 void editor_init(char *filename, long buffer_size, struct fox_ui *ui)

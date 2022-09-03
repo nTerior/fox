@@ -42,7 +42,7 @@ void ui_cleanup(struct fox_ui *ui)
   free(ui);
 }
 
-void ui_key_callback(int key, int (*callback)(int), struct fox_ui *ui)
+void ui_key_callback(int key, void (*callback)(int), struct fox_ui *ui)
 {
   if (key >= KEY_MAX)
     return;
@@ -59,8 +59,7 @@ void ui_loop(struct fox_ui *ui)
     if (c != ERR)
     {
       if (ui->key_callbacks[c] != 0)
-        if ((*ui->key_callbacks[c])(c) == 0)
-          return;
+        (*ui->key_callbacks[c])(c);
     }
   }
 }

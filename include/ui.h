@@ -5,7 +5,7 @@
 #define SELECTED_BYTE_COLOR_PAIR 100
 struct fox_ui
 {
-  int (*key_callbacks[KEY_MAX])(int);
+  void (*key_callbacks[KEY_MAX])(int);
 };
 
 /**
@@ -22,7 +22,7 @@ void ui_cleanup(struct fox_ui *ui);
  * @param key the key on which the callback is being triggered (e.g. KEY_BACKSPACE)
  * @param callback the callback function: parameters: the pressed key, returns: 0 if the program should end, 1 if the program should continue. Note that executing the callback is not non-blocking
  */
-void ui_key_callback(int key, int (*callback)(int), struct fox_ui *ui);
+void ui_key_callback(int key, void (*callback)(int), struct fox_ui *ui);
 
 /**
  * @brief Beings the loop of the ui

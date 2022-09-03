@@ -6,24 +6,28 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int quit(__attribute__((unused)) int _)
+static struct fox_options options;
+static struct fox_ui *ui;
+
+void quit(__attribute__((unused)) int _)
 {
-  return 0;
+  exit(0);
 }
 
 void close_fox()
 {
   endwin();
   editor_cleanup();
+  ui_cleanup(ui);
+  free(options.filename);
 }
 
 int main(int argc, char **argv)
 {
   atexit(close_fox);
-  struct fox_options options;
   parse_opts(argc, argv, &options);
 
-  struct fox_ui *ui = ui_init();
+  ui = ui_init();
   ui_key_callback('q', quit, ui);
 
   editor_init(options.filename, options.buffer_size, ui);
@@ -32,9 +36,6 @@ int main(int argc, char **argv)
   info("Keyboard shortcuts: arrow keys -> cursor movement, q -> quit");
 
   ui_loop(ui);
-  ui_cleanup(ui);
-
-  free(options.filename);
 
   return 0;
 }
