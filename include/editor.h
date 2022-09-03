@@ -8,6 +8,8 @@ struct fox_editor
   long buffer_size;
   long selected_byte;
   long scrolled;
+
+  unsigned char selected_nibble;
 };
 
 /**

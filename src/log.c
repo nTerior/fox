@@ -11,6 +11,7 @@ void _log(char *format, va_list farg, int urgency)
   attrset(COLOR_PAIR(urgency));
   ui_vprint_clear_line(LINES - LOG_RESERVED_SPACE + 1, format, farg);
   attrset(COLOR_PAIR(0));
+  refresh();
 }
 
 void info(char *format, ...)

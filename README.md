@@ -6,7 +6,7 @@ fox is a command line hex-editor
 ```
 Usage: fox [options]
 Options:
-    -h, --help           prints this message
+    -h, --help           printsw this message
     -v, --version        prints the current version of fox
     -f, --file <PATH>    PATH to the to be edited file
     -b, --buffer <SIZE>  if no file is being specified, the created file will be SIZE bytes large

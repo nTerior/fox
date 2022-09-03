@@ -1,6 +1,7 @@
 #include "optparse.h"
 #include "editor.h"
 #include "ui.h"
+#include "log.h"
 
 #include <stdlib.h>
 #include <unistd.h>

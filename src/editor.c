@@ -32,6 +32,8 @@ void do_scroll(int scroll)
   editor->scrolled = min(editor->scrolled, editor->buffer_size / 16 - printable_lines);
   editor->scrolled = max(editor->scrolled, 0);
   editor_render();
+
+  editor->selected_nibble = 0;
 }
 
 int do_cursor_click(__attribute__((unused)) int _)
@@ -76,6 +78,7 @@ int do_cursor_click(__attribute__((unused)) int _)
     int byte_index = clicked_y * 16 + clicked_x;
     editor->selected_byte = byte_index + editor->scrolled * 16;
     editor_render();
+    editor->selected_nibble = 0;
   }
 
   return 1;
@@ -109,6 +112,33 @@ int do_cursor_move(int key)
   return 1;
 }
 
+int edit_nibble(int key)
+{
+  unsigned char mask = 0;
+  if (key <= '9')
+    mask = key - '0';
+  else
+    mask = key - 'a' + 0xa;
+
+  unsigned char *byte = &editor->buffer[editor->selected_byte];
+
+  if (editor->selected_nibble == 0)
+  {
+    mask <<= 4;
+  }
+  else
+  {
+    if (editor->selected_byte != editor->selected_byte - 1)
+      editor->selected_byte++;
+  }
+  *byte = (0xff & mask) | (*byte & ~mask);
+
+  editor->selected_nibble = !editor->selected_nibble;
+  editor_render();
+
+  return 1;
+}
+
 void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
 {
   editor = malloc(sizeof(struct fox_editor));
@@ -123,6 +153,7 @@ void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
 
   editor->buffer_size = buffer_size;
   editor->selected_byte = 0;
+  editor->selected_nibble = 0;
   editor->scrolled = 0;
 
   if (editor->filename != 0)
@@ -136,6 +167,24 @@ void editor_init(char *filename, long buffer_size, struct fox_ui *ui)
   ui_key_callback(KEY_LEFT, do_cursor_move, ui);
   ui_key_callback(KEY_RIGHT, do_cursor_move, ui);
   ui_key_callback(KEY_MOUSE, do_cursor_click, ui);
+
+  // editing nibbles
+  ui_key_callback('0', edit_nibble, ui);
+  ui_key_callback('1', edit_nibble, ui);
+  ui_key_callback('2', edit_nibble, ui);
+  ui_key_callback('3', edit_nibble, ui);
+  ui_key_callback('4', edit_nibble, ui);
+  ui_key_callback('5', edit_nibble, ui);
+  ui_key_callback('6', edit_nibble, ui);
+  ui_key_callback('7', edit_nibble, ui);
+  ui_key_callback('8', edit_nibble, ui);
+  ui_key_callback('9', edit_nibble, ui);
+  ui_key_callback('a', edit_nibble, ui);
+  ui_key_callback('b', edit_nibble, ui);
+  ui_key_callback('c', edit_nibble, ui);
+  ui_key_callback('d', edit_nibble, ui);
+  ui_key_callback('e', edit_nibble, ui);
+  ui_key_callback('f', edit_nibble, ui);
 }
 
 void editor_cleanup()
