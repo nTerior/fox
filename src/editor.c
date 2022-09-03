@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include <ncurses.h>
 
@@ -33,7 +34,7 @@ void save(__attribute__((unused)) int _)
   else if (res == IO_DIRECTORY)
     err("%s is actually a directory", name);
   else if (res == IO_FAIL)
-    critical("Cannot write to %s!", name);
+    critical("%s, cannot write to %s!", strerror(errno), name);
   else
   {
     editor->filename = realloc(editor->filename, strlen(name));
